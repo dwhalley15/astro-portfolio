@@ -1,0 +1,178 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Monoton&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap");
+@import "tailwindcss";
+
+/* =========================================
+   DESIGN TOKENS
+========================================= */
+
+:root {
+  /* Border radius */
+  --radius: 0.25rem;
+
+  /* Core colours */
+  --background: oklch(0.33 0.1 33);
+  --foreground: oklch(0.82 0.015 90);
+
+  /* Surfaces */
+  --card: oklch(0.37 0.115 33);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  /* Brand colours */
+  --primary: oklch(0.75 0.15 85);
+  --primary-foreground: var(--background);
+
+  --secondary: oklch(0.58 0.17 45);
+  --secondary-foreground: oklch(0.95 0.01 90);
+
+  --accent: oklch(0.5 0.17 35);
+  --accent-foreground: oklch(0.95 0.01 90);
+
+  /* Muted colours */
+  --muted: var(--card);
+  --muted-foreground: oklch(0.72 0.04 60);
+
+  /* Feedback */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+
+  /* Borders and inputs */
+  --border: oklch(0.45 0.13 35);
+  --input: var(--border);
+  --ring: var(--primary);
+
+  /* Decorative stripes */
+  --stripe-1: var(--card);
+  --stripe-2: var(--accent);
+  --stripe-3: var(--secondary);
+  --stripe-4: var(--primary);
+  --stripe-5: var(--foreground);
+}
+
+/* =========================================
+   TAILWIND THEME
+========================================= */
+
+@theme inline {
+  /* Typography */
+  --font-display: "Monoton", system-ui, sans-serif;
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "VT323", monospace;
+
+  /* Border radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Colours */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  /* Decorative colours */
+  --color-stripe-1: var(--stripe-1);
+  --color-stripe-2: var(--stripe-2);
+  --color-stripe-3: var(--stripe-3);
+  --color-stripe-4: var(--stripe-4);
+  --color-stripe-5: var(--stripe-5);
+}
+
+/* =========================================
+   GLOBAL BASE STYLES
+========================================= */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+
+    background-color: var(--background);
+    color: var(--foreground);
+
+    font-family: var(--font-sans);
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+/* =========================================
+   CUSTOM UTILITIES
+========================================= */
+
+@utility stripes {
+  background: linear-gradient(
+    to bottom,
+    var(--stripe-1) 0%,
+    var(--stripe-1) 20%,
+    var(--stripe-2) 20%,
+    var(--stripe-2) 40%,
+    var(--stripe-3) 40%,
+    var(--stripe-3) 60%,
+    var(--stripe-4) 60%,
+    var(--stripe-4) 80%,
+    var(--stripe-5) 80%,
+    var(--stripe-5) 100%
+  );
+}

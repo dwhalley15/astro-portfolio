@@ -1,0 +1,180 @@
+
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects";
+import { notes } from "../data/notes";
+import Tag from "../components/Tag.astro";
+import { stack } from "../data/stack";
+
+const title = "Ortheyus | Software Developer";
+
+const description =
+  "Discover Ortheyus' portfolio: a passionate software developer showcasing innovative web development projects, skills, and programming expertise.";
+
+const image = "https://portfolio.ortheyus.uk/og/og-home.png";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Ortheyus",
+  url: "https://portfolio.ortheyus.uk/",
+  sameAs: [
+    "https://www.linkedin.com/in/davidwhalleyprofile",
+    "https://github.com/dwhalley15",
+    "https://www.instagram.com/ortheyus/",
+    "https://www.youtube.com/channel/UCWikZ6mdoqSzCTOvy8MjsLQ",
+  ],
+  jobTitle: "Software Developer",
+  worksFor: {
+    "@type": "Organization",
+    name: "the human tech agency",
+  },
+  image: {
+    "@type": "ImageObject",
+    url: image,
+    width: 800,
+    height: 600,
+  },
+  description,
+};
+
+const featuredProjects = projects
+  .filter((project) => project.featured)
+  .slice(0, 3);
+
+const featuredNotes = notes
+  .filter((note) => note.featured)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  schema={schema}
+>
+    
+     <section class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-6 pt-20 pb-40 relative z-10">
+      <p class="font-mono text-2xl text-primary">
+        ● ONLINE · UK · OPEN TO ROLES
+      </p>
+
+      <h1 class="mt-4 font-display text-6xl md:text-8xl leading-none text-foreground">
+        Shipping<br />
+        <span class="text-primary">honest</span> software
+      </h1>
+
+      <p class="mt-8 max-w-xl text-xl text-muted-foreground">
+        I'm David. I build clean, maintainable web applications,
+        full-stack, mostly TypeScript. First Class Honours in
+        Software Engineering. Currently looking for my next role.
+      </p>
+
+      <div class="mt-10 flex flex-wrap gap-4 font-mono text-2xl">
+        <a
+  href="/work"
+  class="bg-primary text-primary-foreground px-6 py-2 shadow-[6px_6px_0_var(--secondary)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition"
+>
+  ▶ VIEW WORK
+</a>
+
+        <a
+          href="/contact"
+          class="border-2 border-foreground px-6 py-2 hover:bg-foreground hover:text-background"
+        >
+          MAIL DAVID
+        </a>
+      </div>
+    </div>
+
+    <!-- Decorative stripes -->
+    <div
+      aria-hidden="true"
+      class="stripes absolute -right-20 bottom-10 h-40 w-[140%] -rotate-12 origin-right"
+    ></div>
+  </section>
+
+
+   <section class="mx-auto max-w-6xl px-6 py-20">
+  <div class="flex items-end justify-between gap-4">
+    <h2 class="font-display text-4xl text-primary">
+      Selected work
+    </h2>
+
+    <a href="/work" class="font-mono text-xl hover:text-primary">
+      VIEW ALL →
+    </a>
+  </div>
+
+  <div class="mt-8 grid gap-6 md:grid-cols-3">
+    {featuredProjects.map((project, index) => (
+      <ProjectCard project={project} index={index} />
+    ))}
+  </div>
+</section>
+
+<!-- Tools of the trade -->
+<section class="bg-card py-20">
+  <div class="mx-auto max-w-6xl px-6">
+    <h2 class="font-display text-4xl text-primary">
+      Tools of the trade
+    </h2>
+
+    <p class="mt-3 text-muted-foreground">
+      I pick boring, proven tech and use it well. Then I write tests.
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-2">
+      {stack.map((technology) => (
+        <Tag>{technology}</Tag>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Selected notes -->
+{featuredNotes.length > 0 && (
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <div class="flex items-end justify-between gap-4">
+      <h2 class="font-display text-4xl text-primary">
+        Selected notes
+      </h2>
+
+      <a
+        href="/notes"
+        class="shrink-0 font-mono text-xl hover:text-primary transition-colors"
+      >
+        VIEW ALL →
+      </a>
+    </div>
+
+    <ul class="mt-8 divide-y-2 divide-accent">
+      {featuredNotes.map((note) => (
+        <li class="grid gap-2 py-6 md:grid-cols-[160px_1fr]">
+          <span class="font-mono text-xl text-secondary">
+            {note.date.slice(0, 4)} · {note.read}
+          </span>
+
+          <div>
+            <h3 class="text-xl font-bold">
+              <a
+                href={`/notes/${note.slug}`}
+                class="hover:text-primary transition-colors"
+              >
+                {note.title} →
+              </a>
+            </h3>
+
+            <p class="text-muted-foreground">
+              {note.description}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+</BaseLayout>

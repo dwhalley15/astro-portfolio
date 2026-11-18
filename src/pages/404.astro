@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="404 — Game Over | David Whalley — Ortheyus"
+  description="This level doesn't exist. The page you're looking for may have moved or was never part of the game."
+  image="/og/og-home.png"
+  noindex={true}
+  showCTA={false}
+>
+  <section class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <p class="font-mono text-2xl text-primary">
+        // ERROR 404 · GAME OVER
+      </p>
+
+      <div
+        aria-hidden="true"
+        class="mt-6 font-display text-9xl leading-none text-primary md:text-[180px]"
+      >
+        404
+      </div>
+
+      <h1 class="mt-8 text-3xl font-bold md:text-5xl">
+        This level doesn’t exist.
+      </h1>
+
+      <p class="mt-5 max-w-lg text-lg text-foreground">
+        The page you’re looking for has moved, or was never part of the
+        game. Let’s get you back on track.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-4">
+        <!-- Primary button -->
+        <a
+            href="/"
+            style="color: #3b170e;"
+            class="inline-flex min-h-12 items-center justify-center gap-3 border-2 border-primary bg-primary px-6 py-3 font-mono text-xl shadow-[6px_6px_0_var(--secondary)] transition hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
+            >
+            <span aria-hidden="true">←</span>
+            BACK TO START
+        </a>
+
+        <!-- Outline button -->
+        <a
+          href="/work"
+          class="inline-flex min-h-12 items-center justify-center gap-3 border-2 border-primary bg-transparent px-6 py-3 font-mono text-xl text-primary shadow-[6px_6px_0_var(--secondary)] transition hover:translate-x-1 hover:translate-y-1 hover:bg-primary hover:text-background hover:shadow-none"
+        >
+          EXPLORE WORK
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Arcade stripes -->
+    <div
+      class="stripes h-24 -skew-y-3 origin-left"
+      aria-hidden="true"
+    ></div>
+  </section>
+</BaseLayout>

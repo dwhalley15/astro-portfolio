@@ -1,0 +1,263 @@
+
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Tag from "../components/Tag.astro";
+
+const title = "About | David Whalley — Ortheyus";
+
+const description =
+  "Learn about David Whalley, a software developer with First Class Honours in Software Engineering, specialising in TypeScript and full-stack web development.";
+
+const image = "https://portfolio.ortheyus.uk/og/og-about.png";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": "https://portfolio.ortheyus.uk/about#webpage",
+      url: "https://portfolio.ortheyus.uk/about",
+      name: title,
+      description,
+      inLanguage: "en-GB",
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: image,
+      },
+      mainEntity: {
+        "@id": "https://portfolio.ortheyus.uk/#person",
+      },
+    },
+    {
+      "@type": "Person",
+      "@id": "https://portfolio.ortheyus.uk/#person",
+      name: "David Whalley",
+      alternateName: "Ortheyus",
+      url: "https://portfolio.ortheyus.uk/",
+      jobTitle: "Software Developer",
+      description:
+        "Software developer specialising in TypeScript, full-stack web applications and maintainable software.",
+      sameAs: [
+        "https://www.linkedin.com/in/davidwhalleyprofile",
+        "https://github.com/dwhalley15",
+        "https://www.instagram.com/ortheyus/",
+        "https://www.youtube.com/channel/UCWikZ6mdoqSzCTOvy8MjsLQ",
+      ],
+      knowsAbout: [
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Next.js",
+        "Node.js",
+        "PostgreSQL",
+        "Software Engineering",
+        "Web Development",
+      ],
+      alumniOf: {
+        "@type": "EducationalOrganization",
+        name: "Bournemouth University",
+      },
+    },
+  ],
+};
+
+
+
+// Timeline
+const timeline = [
+  {
+    year: "2024",
+    description: "Graduated — BSc Software Engineering, First Class Honours",
+  },
+  {
+    year: "2024",
+    description: "Final Year Project — medical-portfolios MVP",
+  },
+  {
+    year: "2023",
+    description: "Industry placement — full-stack web development",
+  },
+  {
+    year: "2021",
+    description: "Started university — first programs in Python, Java",
+  },
+];
+
+// Education
+const education = [
+  {
+    title: "BSc (Hons) Software Engineering",
+    qualification: "FIRST CLASS HONOURS · 2021–2025",
+    description:
+      "Software engineering principles, algorithms, and modern development practices.",
+  },
+  {
+    title: "Access to HE Diploma — Computing",
+    qualification: "DISTINCTION · 2020–2021",
+    description:
+      "Foundation course preparing for university-level computer science.",
+  },
+];
+
+// Services
+const services = [
+  {
+    title: "Web applications",
+    description:
+      "Full-stack TypeScript apps — Next.js, React, Postgres. From MVP to production.",
+  },
+  {
+    title: "Front-end engineering",
+    description:
+      "Accessible, responsive UIs. Design systems. Performance budgets that are actually enforced.",
+  },
+  {
+    title: "Code reviews & audits",
+    description:
+      "Independent review of an existing codebase — architecture, testability, gotchas.",
+  },
+];
+
+// Skills
+const skills = {
+  languages: ["TypeScript", "JavaScript", "C#", "SQL", "HTML/CSS"],
+  frameworks: ["React", "Next.js", "Node.js", "Tailwind", "Tanstack"],
+  data: ["PostgreSQL", "SQLite"],
+  tooling: ["Git", "Docker", "Vite"],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  schema={schema}
+>
+  <!-- Page heading -->
+  <div class="mx-auto max-w-6xl px-6 pt-16 pb-10">
+    <p class="font-mono text-2xl text-secondary">
+      // PLAYER 1
+    </p>
+
+    <h1 class="mt-2 font-display text-5xl md:text-7xl text-primary">
+      About
+    </h1>
+
+    <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+      I have a First Class Honours degree in Software Engineering and spend
+      most of my time building web applications I'd be happy to maintain in
+      two years. I care about boring, durable choices: typed code, small
+      modules, real tests, and writing things down. I don't chase
+      frameworks, I pick what fits and ship.
+    </p>
+  </div>
+
+  <!-- About content -->
+  <div class="mx-auto max-w-6xl px-6 pb-20 grid gap-12 md:grid-cols-2">
+
+    <!-- Left column -->
+    <div>
+      <!-- Timeline -->
+      <section aria-labelledby="timeline-heading">
+        <h2
+          id="timeline-heading"
+          class="font-display text-3xl text-primary"
+        >
+          Timeline
+        </h2>
+
+        <ol class="mt-6 border-l-4 border-secondary">
+          {timeline.map((item) => (
+            <li class="pl-6 pb-6">
+              <span class="font-mono text-xl text-primary">
+                {item.year}
+              </span>
+              <p>{item.description}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- Education -->
+      <section class="mt-8" aria-labelledby="education-heading">
+        <h2
+          id="education-heading"
+          class="font-display text-3xl text-primary"
+        >
+          Education
+        </h2>
+
+        <div class="mt-6 space-y-4">
+          {education.map((item) => (
+            <div class="bg-card p-5">
+              <h3 class="font-bold">
+                {item.title}
+              </h3>
+
+              <p class="font-mono text-lg text-secondary">
+                {item.qualification}
+              </p>
+
+              <p class="text-muted-foreground">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <!-- Right column -->
+    <div>
+      <!-- Services -->
+      <section aria-labelledby="services-heading">
+        <h2
+          id="services-heading"
+          class="font-display text-3xl text-primary"
+        >
+          Services
+        </h2>
+
+        <div class="mt-6 space-y-4">
+          {services.map((service) => (
+            <div class="bg-card p-5 border-t-4 border-primary">
+              <h3 class="font-bold">
+                {service.title}
+              </h3>
+
+              <p class="text-muted-foreground">
+                {service.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="mt-8" aria-labelledby="skills-heading">
+        <h2
+          id="skills-heading"
+          class="font-display text-3xl text-primary"
+        >
+          Skills
+        </h2>
+
+        <div class="mt-6 space-y-4">
+          {Object.entries(skills).map(([category, items]) => (
+            <div>
+              <h3 class="font-mono text-xl text-secondary uppercase">
+                {category}
+              </h3>
+
+              <div class="mt-1 flex flex-wrap gap-2">
+                {items.map((skill) => (
+                  <Tag>{skill}</Tag>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,57 @@
+
+---
+interface NavItem {
+  path: string;
+  label: string;
+}
+
+const navigationItems: NavItem[] = [
+  { path: "/", label: "Home" },
+  { path: "/work", label: "Work" },
+  { path: "/about", label: "About" },
+  { path: "/notes", label: "Notes" },
+  { path: "/uses", label: "Uses" },
+  { path: "/contact", label: "Contact" },
+];
+
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
+const isActive = (path: string) =>
+  pathname === (path.replace(/\/+$/, "") || "/");
+---
+
+<header class="border-b-4 border-primary">
+  <nav
+    class="mx-auto max-w-6xl flex flex-wrap items-center justify-between gap-4 px-6 py-5"
+    aria-label="Main navigation"
+  >
+    <!-- Logo -->
+    <a
+      href="/"
+      class="font-display text-2xl text-primary"
+      aria-label="Ortheyus - Home"
+    >
+      ORTHEYUS
+    </a>
+
+    <!-- Navigation links -->
+    <ul class="flex flex-wrap gap-1 font-mono text-xl">
+      {navigationItems.map((item) => (
+        <li>
+          <a
+            href={item.path}
+            aria-current={isActive(item.path) ? "page" : undefined}
+            class:list={[
+              "px-3 py-1 uppercase hover:text-primary",
+              isActive(item.path)
+                ? "bg-primary text-primary-foreground"
+                : ""
+            ]}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>

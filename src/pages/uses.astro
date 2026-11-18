@@ -1,0 +1,120 @@
+
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Uses | David Whalley — Ortheyus";
+
+const description =
+  "Explore the hardware, development tools, editor configuration and software David Whalley uses for everyday software development.";
+
+const image = "https://portfolio.ortheyus.uk/og/og-uses.png";
+
+
+const uses = {
+  hardware: [
+    { label: "Machine", value: "Lenovo Legion 5" },
+    { label: "Display", value: 'Asus TUF Gaming 34"' },
+    { label: "Keyboard", value: "Corsair K55" },
+    { label: "Mouse", value: "Corsair Harpoon" },
+    { label: "Audio", value: "Logitech G432" },
+  ],
+
+  editor: [
+    { label: "IDE", value: "VS Code / VS" },
+    { label: "Theme", value: "Dark" },
+    { label: "Font", value: "JetBrains Mono — 14px" },
+    { label: "Extensions", value: "GitLens, Prettier, Docker" },
+  ],
+
+  software: [
+    { label: "Browser", value: "Firefox" },
+    { label: "Notes", value: "Notepad++" },
+    { label: "Tasks", value: "Jira" },
+    { label: "Design", value: "Lovable" },
+    { label: "API", value: "Insomnia" },
+  ],
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://portfolio.ortheyus.uk/uses#webpage",
+  url: "https://portfolio.ortheyus.uk/uses",
+  name: title,
+  description,
+  inLanguage: "en-GB",
+  author: {
+    "@type": "Person",
+    "@id": "https://portfolio.ortheyus.uk/#person",
+    name: "David Whalley",
+  },
+  primaryImageOfPage: {
+    "@type": "ImageObject",
+    url: image,
+  },
+  mainEntity: {
+    "@type": "ItemList",
+    name: "David Whalley's development setup",
+    itemListElement: Object.entries(uses).flatMap(
+      ([category, items]) =>
+        items.map((item) => ({
+          "@type": "ListItem",
+          name: `${category}: ${item.label}`,
+          item: {
+            "@type": "Thing",
+            name: item.value,
+            description: `${item.label} in ${category}`,
+          },
+        }))
+    ).map((item, index) => ({
+      ...item,
+      position: index + 1,
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  schema={schema}
+>
+  <!-- Page heading -->
+  <div class="mx-auto max-w-6xl px-6 pt-16 pb-10">
+    <p class="font-mono text-2xl text-secondary">
+      // INVENTORY
+    </p>
+
+    <h1 class="mt-2 font-display text-5xl md:text-7xl text-primary">
+      Uses
+    </h1>
+
+    <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+      The gear and software I use day to day. Updated when something earns its keep.
+    </p>
+  </div>
+
+  <!-- Uses cards -->
+  <div class="mx-auto max-w-6xl px-6 pb-20 grid gap-6 md:grid-cols-3">
+    {Object.entries(uses).map(([category, items]) => (
+      <section class="bg-card p-6 border-t-8 border-primary">
+        <h2 class="font-display text-2xl text-primary capitalize">
+          {category}
+        </h2>
+
+        <dl class="mt-4 space-y-3">
+          {items.map((item) => (
+            <div>
+              <dt class="font-mono text-lg text-secondary uppercase">
+                {item.label}
+              </dt>
+
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,98 @@
+
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { notes } from "../../data/notes";
+
+const siteUrl = "https://portfolio.ortheyus.uk";
+const pageUrl = `${siteUrl}/notes`;
+
+const title = "Notes | David Whalley — Ortheyus";
+
+const description =
+  "Read development notes, lessons learned and practical insights from David Whalley on software engineering, web development and building applications.";
+
+const image = `${siteUrl}/og/og-notes.png`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: title,
+  description,
+  inLanguage: "en-GB",
+  author: {
+    "@id": `${siteUrl}/#person`,
+  },
+  primaryImageOfPage: {
+    "@type": "ImageObject",
+    url: image,
+  },
+  mainEntity: {
+    "@type": "ItemList",
+    name: "Development notes by David Whalley",
+    numberOfItems: notes.length,
+    itemListElement: notes.map((note, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: note.title,
+      url: `${siteUrl}/notes/${note.slug}`,
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  schema={schema}
+>
+  <!-- Page heading -->
+  <div class="mx-auto max-w-6xl px-6 pt-16 pb-10">
+    <p class="font-mono text-2xl text-secondary">
+      // HIGH SCORES
+    </p>
+
+    <h1 class="mt-2 font-display text-5xl md:text-7xl text-primary">
+      Notes
+    </h1>
+
+    <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+      Things I've learned, and things I wish someone had told me sooner.
+    </p>
+  </div>
+
+  <!-- Notes listing -->
+  <section
+    class="mx-auto max-w-6xl px-6 pb-20"
+    aria-label="Development notes"
+  >
+    <ul class="grid gap-6 md:grid-cols-2">
+      {notes.map((note) => (
+        <li class="bg-card border-b-8 border-secondary transition-colors hover:border-primary">
+          <article class="h-full">
+            <a
+              href={`/notes/${note.slug}`}
+              class="block h-full p-6 focus-visible:outline-2 focus-visible:outline-primary"
+              aria-label={`Read ${note.title}`}
+            >
+              <p class="font-mono text-xl text-primary">
+                <time datetime={note.date}>{note.date}</time>
+                · {note.read} READ
+              </p>
+
+              <h2 class="mt-2 text-2xl font-bold hover:text-primary transition-colors">
+                {note.title} <span aria-hidden="true">→</span>
+              </h2>
+
+              <p class="mt-2 text-muted-foreground">
+                {note.description}
+              </p>
+            </a>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

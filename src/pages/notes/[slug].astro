@@ -1,0 +1,208 @@
+
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { notes, type Note } from "../../data/notes";
+
+export const getStaticPaths = (() =>
+  notes.map((note, index) => ({
+    params: { slug: note.slug },
+    props: { note, index },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  note: Note;
+  index: number;
+}
+
+const { note, index } = Astro.props;
+
+const siteUrl = "https://portfolio.ortheyus.uk";
+const pageUrl = `${siteUrl}/notes/${note.slug}`;
+
+const title =
+  note.seo?.title ??
+  `${note.title} | David Whalley — Ortheyus`;
+
+const description =
+  note.seo?.description ?? note.description;
+
+const image =
+  note.seo?.image ?? "/og/og-notes.png";
+
+const imageUrl = new URL(image, siteUrl).toString();
+
+// Wrap around to the first note, as in your React version.
+const next =
+  notes.length > 1
+    ? notes[(index + 1) % notes.length]
+    : null;
+
+// Preserve the original ## // section syntax.
+const sections = note.body.split(/^[ \t]*## \/\/ /m);
+
+const intro = sections[0]?.trim() ?? "";
+
+const articleSections = sections
+  .slice(1)
+  .filter((section) => section.trim())
+  .map((section) => {
+    const newline = section.indexOf("\n");
+
+    return {
+      heading:
+        newline === -1
+          ? section.trim()
+          : section.slice(0, newline).trim(),
+      text:
+        newline === -1
+          ? ""
+          : section.slice(newline + 1).trim(),
+    };
+  });
+
+// Simple paragraph renderer for plain-text article content.
+const paragraphs = (text: string) =>
+  text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: title,
+      description,
+      inLanguage: "en-GB",
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: imageUrl,
+      },
+      mainEntity: {
+        "@id": `${pageUrl}#article`,
+      },
+    },
+    {
+      "@type": "BlogPosting",
+      "@id": `${pageUrl}#article`,
+      headline: note.title,
+      description,
+      datePublished: note.date,
+      image: imageUrl,
+      mainEntityOfPage: {
+        "@id": `${pageUrl}#webpage`,
+      },
+      author: {
+        "@type": "Person",
+        "@id": `${siteUrl}/#person`,
+        name: "David Whalley",
+        url: siteUrl,
+      },
+      publisher: {
+        "@type": "Person",
+        "@id": `${siteUrl}/#person`,
+        name: "David Whalley",
+      },
+      inLanguage: "en-GB",
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={imageUrl}
+  type="article"
+  schema={schema}
+>
+  <!-- Article heading -->
+  <header class="mx-auto max-w-6xl px-6 pt-10 pb-12">
+    <a
+      href="/notes"
+      class="inline-flex items-center gap-2 font-mono text-xl text-primary hover:text-foreground transition-colors"
+    >
+      <span aria-hidden="true">←</span>
+      ALL NOTES
+    </a>
+
+    <p class="mt-8 font-mono text-2xl text-primary">
+      // FIELD NOTES ·
+      <time datetime={note.date}>{note.date}</time>
+      · {note.read.toUpperCase()} READ
+    </p>
+
+    <h1
+      class="mt-4 max-w-4xl font-display text-4xl md:text-6xl leading-tight text-primary wrap-break-words"
+    >
+      {note.title}
+    </h1>
+
+    <p class="mt-6 max-w-3xl text-xl leading-8">
+      {note.description}
+    </p>
+
+    <p class="mt-6 font-mono text-xl text-primary">
+      BY DAVID WHALLEY
+    </p>
+  </header>
+
+  <!-- Arcade stripes -->
+  <div class="stripes h-3" aria-hidden="true"></div>
+
+  <!-- Article body -->
+  <article class="mx-auto max-w-3xl px-6 py-12 md:py-16">
+    {intro && (
+      <div class="article-content text-lg leading-8">
+        {paragraphs(intro).map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+    )}
+
+    {articleSections.map((section) => (
+      <section class="mt-12">
+        <h2
+          class="mb-6 font-mono text-3xl leading-tight text-primary"
+        >
+          // {section.heading}
+        </h2>
+
+        <div class="article-content text-lg leading-8">
+          {paragraphs(section.text).map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <!-- End marker -->
+    <p class="mt-12 border-t-2 border-accent pt-6 font-mono text-xl text-primary">
+      // END OF NOTE
+    </p>
+
+    <!-- Next article -->
+    {next && (
+      <nav class="mt-8" aria-label="Next note">
+        <p class="font-mono text-xl text-primary">
+          READ NEXT
+        </p>
+
+        <a
+          href={`/notes/${next.slug}`}
+          class="mt-3 flex items-center justify-between gap-4 text-2xl font-bold hover:text-primary transition-colors"
+        >
+          <span>{next.title}</span>
+          <span aria-hidden="true" class="shrink-0">→</span>
+        </a>
+      </nav>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .article-content p + p {
+    margin-top: 1.5rem;
+  }
+</style>

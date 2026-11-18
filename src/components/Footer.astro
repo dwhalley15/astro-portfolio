@@ -1,0 +1,60 @@
+
+---
+interface SocialLink {
+  label: string;
+  href: string;
+}
+
+const EMAIL = "david.whalley.dev@proton.me"
+
+const LINKS: SocialLink[] = [
+  {
+    label: "GitHub",
+    href: "https://github.com/dwhalley15",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/davidwhalleyprofile",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/ortheyus/",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/channel/UCWikZ6mdoqSzCTOvy8MjsLQ",
+  },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-card border-t-4 border-secondary">
+  <div
+    class="mx-auto max-w-6xl px-6 py-8 flex flex-wrap justify-between gap-4 font-mono text-lg text-muted-foreground"
+  >
+    <span>
+      © {currentYear} David Whalley · UK · open to work
+    </span>
+
+    <span class="flex flex-wrap gap-4">
+      <a
+        href={`mailto:${EMAIL}`}
+        class="hover:text-primary transition-colors"
+      >
+        {EMAIL}
+      </a>
+
+      {LINKS.map((link) => (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-primary transition-colors"
+        >
+          {link.label}
+        </a>
+      ))}
+    </span>
+  </div>
+</footer>

@@ -1,0 +1,129 @@
+
+---
+import Navigation from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import CallToAction from "../components/CallToAction.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: "website" | "article" | "profile";
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  showCTA?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = "https://frw6rziicw61rtm1.public.blob.vercel-storage.com/portfolio/light-bulb.png",
+  type = "website",
+  noindex = false,
+  schema,
+  showCTA = true,
+} = Astro.props;
+
+const siteUrl = "https://portfolio.ortheyus.uk";
+
+const canonical = new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+
+const siteName = "Ortheyus Portfolio";
+const author = "Ortheyus";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <meta name="creator" content={author} />
+    <meta name="publisher" content={author} />
+    <meta name="application-name" content={siteName} />
+    <meta name="generator" content="Astro" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="/favicon-32x32.png"
+      type="image/png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      href="/favicon-16x16.png"
+      type="image/png"
+      sizes="16x16"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/apple-touch-icon.png"
+      sizes="180x180"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="800" />
+    <meta property="og:image:height" content="600" />
+    <meta property="og:image:alt" content={title} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={title} />
+
+    <!-- Search engine robots -->
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow"}
+    />
+    <meta
+      name="googlebot"
+      content={noindex
+        ? "noindex, nofollow"
+        : "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}
+    />
+
+    <!-- Structured data -->
+    {schema && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schema).replace(/</g, "\\u003c")}
+      />
+    )}
+
+    <!-- Additional page-specific head content -->
+    <slot name="head" />
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <Navigation />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+     {showCTA && <CallToAction />}
+    <Footer />
+  </body>
+</html>

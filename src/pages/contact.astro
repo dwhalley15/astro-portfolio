@@ -1,0 +1,296 @@
+
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Contact | David Whalley — Ortheyus";
+
+const description =
+  "Get in touch with David Whalley about software development roles, freelance projects and full-stack TypeScript development.";
+
+const image = "https://portfolio.ortheyus.uk/og/og-contact.png";
+
+// Replace this with your real email address.
+// Use the same address as your Footer.astro.
+const EMAIL = "david.whalley.dev@proton.me";
+
+// Replace or update these links as needed.
+const LINKS = [
+  {
+    label: "GitHub",
+    href: "https://github.com/dwhalley15",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/davidwhalleyprofile",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://portfolio.ortheyus.uk/contact#webpage",
+      url: "https://portfolio.ortheyus.uk/contact",
+      name: title,
+      description,
+      inLanguage: "en-GB",
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: image,
+      },
+      mainEntity: {
+        "@id": "https://portfolio.ortheyus.uk/#person",
+      },
+    },
+    {
+      "@type": "Person",
+      "@id": "https://portfolio.ortheyus.uk/#person",
+      name: "David Whalley",
+      alternateName: "Ortheyus",
+      url: "https://portfolio.ortheyus.uk/",
+      jobTitle: "Software Developer",
+      email: EMAIL,
+      sameAs: LINKS.map((link) => link.href),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  schema={schema}
+  showCTA={false}
+>
+  <!-- Page heading -->
+  <div class="mx-auto max-w-6xl px-6 pt-16 pb-10">
+    <p class="font-mono text-2xl text-secondary">
+      // OPEN TO ROLES · UK · REMOTE-FRIENDLY
+    </p>
+
+    <h1 class="mt-2 font-display text-5xl md:text-7xl text-primary">
+      Contact
+    </h1>
+
+    <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+      Got a role or a project? Send a message, I usually reply within
+      24 hours.
+    </p>
+  </div>
+
+  <!-- Contact content -->
+  <div
+    class="mx-auto max-w-6xl px-6 pb-20 grid gap-10 md:grid-cols-[1fr_1.4fr]"
+  >
+    <!-- Contact details -->
+    <section aria-label="Contact details">
+      <ul class="space-y-4">
+        <li class="bg-card p-5">
+          <p class="font-mono text-lg text-secondary">
+            EMAIL
+          </p>
+
+          <a
+            href={`mailto:${EMAIL}`}
+            class="hover:text-primary break-all transition-colors"
+          >
+            {EMAIL}
+          </a>
+        </li>
+
+        {LINKS.map((link) => (
+          <li class="bg-card p-5">
+            <p class="font-mono text-lg text-secondary uppercase">
+              {link.label}
+            </p>
+
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-primary break-all transition-colors"
+            >
+              {link.href.replace(/^https?:\/\//, "")}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Contact form -->
+    <section aria-label="Send a message">
+      <form
+        id="contact-form"
+         action="https://formspree.io/f/xaeoobgr"
+        method="POST"
+        class="bg-card p-6 space-y-4 border-t-8 border-secondary"
+      >
+        <label class="block">
+          <span class="font-mono text-lg uppercase text-primary">
+            Name
+          </span>
+
+          <input
+            type="text"
+            name="name"
+            autocomplete="name"
+            required
+            class="contact-field"
+          />
+        </label>
+
+        <label class="block">
+          <span class="font-mono text-lg uppercase text-primary">
+            Email
+          </span>
+
+          <input
+            type="email"
+            name="email"
+            autocomplete="email"
+            required
+            class="contact-field"
+          />
+        </label>
+
+        <label class="block">
+          <span class="font-mono text-lg uppercase text-primary">
+            Company
+          </span>
+
+          <input
+            type="text"
+            name="company"
+            autocomplete="organization"
+            class="contact-field"
+          />
+        </label>
+
+        <label class="block">
+          <span class="font-mono text-lg uppercase text-primary">
+            Message
+          </span>
+
+          <textarea
+            name="message"
+            rows="5"
+            required
+            class="contact-field resize-y"
+          ></textarea>
+        </label>
+
+        <input type="hidden" name="_subject" value="New portfolio enquiry" />
+
+        <button
+          type="submit"
+          class="bg-primary text-primary-foreground font-mono text-2xl px-8 py-2 shadow-[6px_6px_0_var(--secondary)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition"
+        >
+          ▶ SEND
+        </button>
+
+        <p
+          id="form-status"
+          role="status"
+          aria-live="polite"
+          class="hidden mt-4 font-mono text-xl"
+        ></p>
+      </form>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-field {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.75rem;
+    background: var(--background);
+    color: var(--foreground);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+  }
+
+  .contact-field:focus-visible {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+</style>
+
+<script>
+  function initContactForm() {
+    const form = document.querySelector<HTMLFormElement>("#contact-form");
+    const status = document.querySelector<HTMLElement>("#form-status");
+
+    if (!form || !status || form.dataset.initialized === "true") return;
+
+    form.dataset.initialized = "true";
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!form.reportValidity()) return;
+
+      const button = form.querySelector<HTMLButtonElement>(
+        'button[type="submit"]'
+      );
+
+      if (!button || !form.action) return;
+
+      // Disable button while sending
+      button.disabled = true;
+      button.textContent = "▶ SENDING...";
+      status.classList.add("hidden");
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: {
+            Accept: "application/json",
+          },
+        });
+
+        if (response.ok) {
+          status.textContent =
+            "✓ MESSAGE SENT! Thanks for getting in touch. I'll reply as soon as I can.";
+
+          status.className =
+            "mt-4 font-mono text-xl text-primary";
+
+          form.reset();
+        } else {
+          status.textContent =
+            "✕ MESSAGE FAILED. Please try again or email me directly.";
+
+          status.className =
+            "mt-4 font-mono text-xl text-secondary";
+        }
+      } catch (error) {
+        status.textContent =
+          "✕ CONNECTION ERROR. Please try again later.";
+
+        status.className =
+          "mt-4 font-mono text-xl text-secondary";
+
+        console.error("Contact form submission failed:", error);
+      } finally {
+        button.disabled = false;
+        button.textContent = "▶ SEND";
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initContactForm);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initContactForm, {
+      once: true,
+    });
+  } else {
+    initContactForm();
+  }
+</script>
