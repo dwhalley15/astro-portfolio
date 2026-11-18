@@ -34,12 +34,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="mt-8 flex flex-wrap gap-4">
         <!-- Primary button -->
         <a
-            href="/"
-            style="color: #3b170e;"
-            class="inline-flex min-h-12 items-center justify-center gap-3 border-2 border-primary bg-primary px-6 py-3 font-mono text-xl shadow-[6px_6px_0_var(--secondary)] transition hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
-            >
-            <span aria-hidden="true">←</span>
-            BACK TO START
+          href="/"
+          class="game-over-button inline-flex min-h-12 items-center justify-center gap-3 border-2 border-primary bg-primary px-6 py-3 font-mono text-xl shadow-[6px_6px_0_var(--secondary)] transition hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
+        >
+          <span aria-hidden="true">←</span>
+          BACK TO START
         </a>
 
         <!-- Outline button -->
@@ -60,3 +59,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     ></div>
   </section>
 </BaseLayout>
+
+<style>
+  .game-over-button,
+  .game-over-button:visited,
+  .game-over-button:hover,
+  .game-over-button:focus-visible {
+    color: #3b170e;
+  }
+</style>
