@@ -166,16 +166,16 @@ const schema = {
   <!-- Hero image -->
   {detail?.media[0] && (
     <figure class="mx-auto max-w-6xl px-6 pb-12">
-      <div class="border-t-8 border-secondary">
+      <div class="flex items-center justify-center border-t-8 border-secondary bg-card/30 p-4 md:p-8">
         <Image
           src={detail.media[0].src}
           alt={detail.media[0].alt}
-          widths={[640, 960, 1280, 1600]}
-          sizes="(max-width: 1152px) 100vw, 1152px"
+          widths={[320, 480, 640, 960, 1280]}
+          sizes="(max-width: 768px) 100vw, 960px"
           format="webp"
           loading="eager"
           fetchpriority="high"
-          class="block w-full h-auto"
+          class="block h-auto max-h-150 w-auto max-w-full object-contain"
         />
       </div>
 
@@ -206,6 +206,37 @@ const schema = {
       </section>
     ))}
 
+    <!-- Project video -->
+    {detail?.video && (
+      <section class="border-t-2 border-accent py-10">
+        <h2 class="font-mono text-3xl text-primary">
+          // PROJECT DEMO
+        </h2>
+
+        <p class="mt-3 text-lg text-muted-foreground">
+          Watch the project in action.
+        </p>
+
+        <div class="mt-6 border-t-8 border-secondary">
+          <div class="relative aspect-video w-full overflow-hidden bg-background">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${detail.video.youtubeId}`}
+              title={detail.video.title}
+              class="absolute inset-0 h-full w-full"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+
+        <p class="mt-3 font-mono text-lg text-primary">
+          {detail.video.title}
+        </p>
+      </section>
+    )}
+
     <!-- Additional screenshots -->
     {detail && detail.media.length > 1 && (
       <section class="border-t-2 border-accent pt-10">
@@ -215,17 +246,19 @@ const schema = {
 
         <div class="mt-6 grid items-start gap-8 md:grid-cols-2">
           {detail.media.slice(1).map((media, mediaIndex) => (
-            <figure>
-              <Image
-                src={media.src}
-                alt={media.alt}
-                widths={[400, 640, 960]}
-                sizes="(min-width: 768px) 50vw, 100vw"
-                format="webp"
-                loading="lazy"
-                decoding="async"
-                class="w-full h-auto border-t-4 border-secondary"
-              />
+            <figure class="min-w-0">
+              <div class="flex items-center justify-center border-t-4 border-secondary bg-card/30 p-4 md:p-6">
+                <Image
+                  src={media.src}
+                  alt={media.alt}
+                  widths={[240, 400, 640, 960]}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  format="webp"
+                  loading="lazy"
+                  decoding="async"
+                  class="block h-auto max-h-125 w-auto max-w-full object-contain"
+                />
+              </div>
 
               <figcaption class="mt-3 font-mono text-lg text-primary">
                 {String(mediaIndex + 2).padStart(2, "0")}{" "}

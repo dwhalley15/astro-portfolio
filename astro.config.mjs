@@ -28,6 +28,10 @@ export default defineConfig({
         "font-src 'self' https://fonts.gstatic.com",
         "connect-src 'self' https://formspree.io",
         "form-action 'self' https://formspree.io",
+
+        // Allow privacy-enhanced YouTube embeds
+        "frame-src https://www.youtube-nocookie.com",
+
         "upgrade-insecure-requests",
       ],
 
