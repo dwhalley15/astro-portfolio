@@ -1,5 +1,7 @@
 
-@import url("https://fonts.googleapis.com/css2?family=Monoton&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap");
+@import "@fontsource/monoton/400.css";
+@import "@fontsource-variable/space-grotesk/wght.css";
+@import "@fontsource/vt323/400.css";
 @import "tailwindcss";
 
 /* =========================================

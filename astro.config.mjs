@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
+import { notes } from "./src/data/notes";
 
 export default defineConfig({
   site: "https://portfolio.ortheyus.uk",
@@ -15,6 +16,20 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !["/404", "/404/"].includes(new URL(page).pathname),
+
+      serialize(item) {
+        const pathname = new URL(item.url).pathname;
+
+        const note = notes.find(
+          (note) => pathname === `/notes/${note.slug}/`
+        );
+
+        if (note) {
+          item.lastmod = note.date;
+        }
+
+        return item;
+      },
     }),
   ],
 
@@ -25,7 +40,7 @@ export default defineConfig({
         "base-uri 'self'",
         "object-src 'none'",
         "img-src 'self' data:",
-        "font-src 'self' https://fonts.gstatic.com",
+        "font-src 'self'",
         "connect-src 'self' https://formspree.io",
         "form-action 'self' https://formspree.io",
 
@@ -36,10 +51,7 @@ export default defineConfig({
       ],
 
       styleDirective: {
-        resources: [
-          "'self'",
-          "https://fonts.googleapis.com",
-        ],
+        resources: ["'self'"],
       },
     },
   },
