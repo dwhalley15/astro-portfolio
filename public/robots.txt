@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
 
 Sitemap: https://portfolio.ortheyus.uk/sitemap-index.xml
