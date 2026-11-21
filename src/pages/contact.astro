@@ -183,6 +183,14 @@ const schema = {
 
         <input type="hidden" name="_subject" value="New portfolio enquiry" />
 
+        <div
+          class="cf-turnstile"
+          data-sitekey="0x4AAAAAAGL022MRJr91coGC"
+          data-theme="light"
+          data-size="normal"
+          data-callback="onSuccess"
+        ></div>
+
         <button
           type="submit"
           class="bg-primary text-primary-foreground font-mono text-2xl px-8 py-2 shadow-[6px_6px_0_var(--secondary)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition"
@@ -219,6 +227,12 @@ const schema = {
     box-shadow: 0 0 0 2px var(--primary);
   }
 </style>
+
+<script
+	src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+	async
+	defer
+></script>
 
 <script>
   function initContactForm() {
