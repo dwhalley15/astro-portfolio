@@ -1,3 +1,4 @@
+
 // @ts-check
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
@@ -41,17 +42,30 @@ export default defineConfig({
         "object-src 'none'",
         "img-src 'self' data:",
         "font-src 'self'",
-        "connect-src 'self' https://formspree.io",
+
+        // Formspree and Cloudflare Turnstile
+        "connect-src 'self' https://formspree.io https://challenges.cloudflare.com",
         "form-action 'self' https://formspree.io",
 
-        // Allow privacy-enhanced YouTube embeds
-        "frame-src https://www.youtube-nocookie.com",
+        // YouTube and Cloudflare Turnstile
+        "frame-src https://www.youtube-nocookie.com https://challenges.cloudflare.com",
 
         "upgrade-insecure-requests",
       ],
 
+      // Cloudflare Turnstile
+      scriptDirective: {
+        resources: [
+          "'self'",
+          "https://challenges.cloudflare.com",
+        ],
+      },
+
       styleDirective: {
-        resources: ["'self'"],
+        resources: [
+          "'self'",
+          "https://challenges.cloudflare.com",
+        ],
       },
     },
   },
